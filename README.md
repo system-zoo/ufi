@@ -44,7 +44,8 @@ the effort to build ship and run.
 * [Elasticsearch](https://www.elastic.co/products/elasticsearch)
 
 ### Virtual Machines
-* Deployed by Juju on Amazon
+* Deployed by [Juju](https://jujucharms.com/) on
+  [Amazon](http://aws.amazon.com/)
 
 # Team
 
@@ -65,7 +66,7 @@ chat.freenode.net server.
 
 # How does it work?
 
-### Runner
+### [Runner](https://github.com/system-zoo/runner)
 The runner is a simple docker container that generates HTTP GET traffic to the
 router address and the router forward the traffic to one of the two services.
 
@@ -110,7 +111,7 @@ service at different error/fail rates with variable amounts of latency.
 
 The following section is the details of the information sent between services.
 
-## Payload for elasticsearch
+## Payload for Elasticsearch
 
 ### The test-service container response payload
 
