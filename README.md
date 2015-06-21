@@ -69,16 +69,16 @@ chat.freenode.net server.
 The runner is a simple docker container that generates HTTP GET traffic to the
 router address and the router forward the traffic to one of the two services.
 
-### Two Services
+### [Test Services](https://github.com/system-zoo/test-service)
 
-Two services are deployed to the production environment `test-service-1` and
-`test-service-2`.  The `test-service-1` represents our stable released service,
-and `test-service-2` represents the next version of the software. The idea is
-to route some percentage of traffic to the new service.
+The two services are deployed to the production environment `test-service-1`
+and`test-service-2`.  The `test-service-1` represents our stable released
+service, and `test-service-2` represents the next version of the software. The
+idea is to route some percentage of traffic to the new service.
 [Registrator](https://github.com/gliderlabs/registrator) is used to register
 the containers in Consul.
 
-### The Router
+### [Router](https://github.com/system-zoo/router)
 The `router` container is designed to handle the routing of traffic
 between multiple revisions of the same service. Currently it is capable of
 supporting a variety of continuous deployment techniques including:
@@ -89,7 +89,7 @@ supporting a variety of continuous deployment techniques including:
 
 It is written in Scala and pulling the configuration data form Consul.
 
-### User Interface
+### [User Interface](https://github.com/system-zoo/djui)
 The User Interface communicates with the Consul key/value store to configure
 the  percentage of traffic to route to the services.  The User Interface
 displays the success rate and other valuable metrics of the containers.
@@ -116,17 +116,16 @@ The following section is the details of the information sent between services.
 
 ```json
 {
-   "containerid": "0b0c75dc3a5e",
-   "requestdate": "2015-06-21",
-   "requesttime": "01:56:59",
-   "containername": "hopeful_stallman",
-   "response": {
-      "request": 126,
-      "duration": 2500,
-      "response": 126,
-      "code": 500
-   }
-}
+ "containerid": "0b0c75dc3a5e",
+ "requestdate": "2015-06-21",
+ "requesttime": "01:56:59",
+ "containername": "hopeful_stallman",
+ "response": {
+    "request": 126,
+    "duration": 2500,
+    "response": 126,
+    "code": 500
+ }
 ```
 
 #### Docker machine metrics
