@@ -1,9 +1,12 @@
 # Overview
 
-* A canary is a bird.  
-* Miners used to carry canaries down in the mine tunnels with them, if the
-  birds died that indicated the presence of dangerous gases, and the miners
-  would exit the mines immediately.
+* A canary is a bird. ![canary](canary.jpg)
+
+* Miners used to put canaries in "containers" and bring them down to the mine
+  tunnels with them, if the birds died that indicated the presence of dangerous
+  gases, and the miners would exit the mines immediately.  
+![dead canary](dead_canary.png)
+
 * In the software industry canary testing is deploying a new version of an
   application to a small number of end users to make sure it works in a real
   world environment. If the new code is buggy the changes can be reversed
@@ -23,23 +26,21 @@ the effort to build ship and run.
   * [Go](https://golang.org/)
   * [Docker](https://www.docker.com/)
 
-### Proxy
+### Router
   * [Scala](http://www.scala-lang.org/index.html)
   * [Consul](https://www.consul.io/)
   * [Registrator](https://github.com/gliderlabs/registrator)
 
-### Controller
-
-### Controller UI
-  * Node
-  * jQuery
-  * Bootstrap
+### User Interface
+  * [Node](https://nodejs.org/)
+  * [jQuery](https://jquery.com/)
+  * [Bootstrap](http://getbootstrap.com/)
 
 ### Test-services
   * [Docker](https://www.docker.com/)
 
 ### Monitor
-* Heka
+* [Heka](http://hekad.readthedocs.org/en/v0.9.2/)
 * [Elasticsearch](https://www.elastic.co/products/elasticsearch)
 
 ### Virtual Machines
@@ -64,13 +65,54 @@ chat.freenode.net server.
 
 # How does it work?
 
+### Runner
+The runner is a simple docker container that generates HTTP GET traffic to the
+router address and the router forward the traffic to one of the two services.
+
+### Two Services
+
+Two services are deployed to the production environment `test-service-1` and
+`test-service-2`.  The `test-service-1` represents our stable released service,
+and `test-service-2` represents the next version of the software. The idea is
+to route some percentage of traffic to the new service.
+[Registrator](https://github.com/gliderlabs/registrator) is used to register
+the containers in Consul.
+
+### The Router
+The `router` container is designed to handle the routing of traffic
+between multiple revisions of the same service. Currently it is capable of
+supporting a variety of continuous deployment techniques including:
+
+  * Blue/Green deployments
+  * Canary deployments
+  * Mirroring of requests
+
+It is written in Scala and pulling the configuration data form Consul.
+
+### User Interface
+The User Interface communicates with the Consul key/value store to configure
+the  percentage of traffic to route to the services.  The User Interface
+displays the success rate and other valuable metrics of the containers.
+
+### Monitoring
+Each docker host is running [Heka](http://hekad.readthedocs.org/en/v0.9.2/)
+agent to collect the success/failure metrics from the test-service logs, and
+other container metrics.  These agents forward the data to the Heka hub.  The
+Heka hub sends all the data to
+[Elasticsearch](https://www.elastic.co/products/elasticsearch)
+for storage.
+
 # What does it measure?
+The test-services are basic services which can be used for simulating a
+service at different error/fail rates with variable amounts of latency.
 
-# Details
+# Technical Details
 
-## Payload for elastic search
+The following section is the details of the information sent between services.
 
-### - container response payload
+## Payload for elasticsearch
+
+### The test-service container response payload
 
 ```json
 {
@@ -138,7 +180,7 @@ chat.freenode.net server.
 }
 ```
 
-#### Route information
+#### Route information to consul
 ```json
 {
   "mirrorMode": false,
