@@ -116,16 +116,17 @@ The following section is the details of the information sent between services.
 
 ```json
 {
- "containerid": "0b0c75dc3a5e",
- "requestdate": "2015-06-21",
- "requesttime": "01:56:59",
- "containername": "hopeful_stallman",
- "response": {
-    "request": 126,
-    "duration": 2500,
-    "response": 126,
-    "code": 500
- }
+  "containerid": "0b0c75dc3a5e",
+  "requestdate": "2015-06-21",
+  "requesttime": "01:56:59",
+  "containername": "hopeful_stallman",
+  "response": {
+     "request": 126,
+     "duration": 2500,
+     "response": 126,
+     "code": 500
+  }
+}
 ```
 
 #### Docker machine metrics
@@ -184,16 +185,16 @@ The following section is the details of the information sent between services.
 {
   "mirrorMode": false,
   "revisions": [
-  {
-    "revision": 1,
-    "trafficRatio":0.9,
-    "primary": true
-  },
-  {
-    "revision": 2,
-    "trafficRatio":0.1,
-    "primary": false
-  }
+    {
+      "revision": 1,
+      "trafficRatio":0.9,
+      "primary": true
+    },
+    {
+      "revision": 2,
+      "trafficRatio":0.1,
+      "primary": false
+    }
   ]
 }
 ```
